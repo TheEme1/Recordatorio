@@ -59,7 +59,7 @@ const handleEdit=(index)=>{
 
         <Button type="submit">
           {
-          editIndex!==null?'Editar Estudiante':'Agregar Estudiante'
+          editIndex!==null?'Editar Recordatorio':'Agregar Recordatorio'
           }
           </Button>
     
@@ -73,8 +73,8 @@ const handleEdit=(index)=>{
            <Card style={{ width: '18rem' }}>
               
             <Card.Body>
-              <Card.Title>Datos Estudiante</Card.Title>
-               <Card.Text>Nombre:{reminder.desc} </Card.Text>
+              <Card.Title>Datos Recordatorio</Card.Title>
+               <Card.Text>Descripción:{reminder.desc} </Card.Text>
               <Button variant="danger" onClick={()=>handleDelete(index)}>Eliminar</Button>
               <Button variant="warning" onClick={()=>handleEdit(index)}>Modificar</Button>
             </Card.Body>
