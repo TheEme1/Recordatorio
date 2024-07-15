@@ -6,23 +6,28 @@ import Form from 'react-bootstrap/Form';
 import {Container,Row,Col,Card} from 'react-bootstrap'
 
 function App() {
-  const [reminder,setReminder]=useState([])
-  const [date,setDate]=useState('')
-  const [desc,setDesc]=useState('')
-  const [editIndex,setEditIndex]=useState(null)
+  const [reminder,setReminder]=useState([]);
+  const [date,setDate]=useState('');
+  const [desc,setDesc]=useState('');
+  const [important, setImportant] = useState(false);
+  const [editIndex,setEditIndex]=useState(null);
+  
   
 const handleSubmit=(event)=>{
 event.preventDefault()
+
+
 if(editIndex!==null){
   const newReminder=[...reminder]
-  newReminder[editIndex]={date,desc}
+  newReminder[editIndex]={date,desc,important}
   setReminder(newReminder)
   setEditIndex(null)
 }else{
-  setReminder([...reminder,{date,desc}])
+  setReminder([...reminder,{date,desc,important}])
 }
   setDate('')
   setDesc('')
+  setImportant(false)
 }
 const handleDelete=(index)=>{
   const newReminder=[...reminder]
@@ -33,6 +38,7 @@ const handleDelete=(index)=>{
 const handleEdit=(index)=>{
   setDate(reminder[index].date)
   setDesc(reminder[index].desc)
+  setImportant(reminder[index].important)
   setEditIndex(index)
 
 }
@@ -45,7 +51,6 @@ const handleEdit=(index)=>{
 
     <Row>
 
-  
     <Form onSubmit={handleSubmit}>
      
         <Form.Group className="mb-3">
@@ -59,7 +64,7 @@ const handleEdit=(index)=>{
         </Form.Group>
 
         <Form.Group>
-        <Form.Check type="switch" id="custom-switch" label="Importante"/>
+          <Form.Check type="switch" id="custom-switch" label="Importante" checked={important} onChange={(e)=>setImportant(e.target.checked)}></Form.Check>
         </Form.Group>
 
         <Button type="submit">
@@ -74,9 +79,8 @@ const handleEdit=(index)=>{
       <Row>
         {
           reminder.map((reminder,index)=>(
-           <Col>
-           <Card style={{ width: '18rem' }}>
-              
+           <Col key={index}>
+           <Card border='primary' style={{ width: '18rem'}}>
             <Card.Body>
               <Card.Title>Datos Recordatorio</Card.Title>
                <Card.Text>Fecha:{reminder.date} </Card.Text>
