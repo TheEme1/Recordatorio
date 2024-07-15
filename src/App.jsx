@@ -6,30 +6,30 @@ import Form from 'react-bootstrap/Form';
 import {Container,Row,Col,Card} from 'react-bootstrap'
 
 function App() {
-  const [students,setStudents]=useState([])
-  const [desc,setName]=useState('')
+  const [reminder,setReminder]=useState([])
+  const [desc,setDesc]=useState('')
   const [editIndex,setEditIndex]=useState(null)
   
 const handleSubmit=(event)=>{
 event.preventDefault()
 if(editIndex!==null){
-  const newStudents=[...students]
-  newStudents[editIndex]={desc}
-  setStudents(newStudents)
+  const newReminder=[...reminder]
+  newReminder[editIndex]={desc}
+  setReminder(newReminder)
   setEditIndex(null)
 }else{
-  setStudents([...students,{desc}])
+  setReminder([...reminder,{desc}])
 }
-  setName('')
+  setDesc('')
 }
 const handleDelete=(index)=>{
-  const newStudents=[...students]
-  newStudents.splice(index,1)
-  setStudents(newStudents)
+  const newReminder=[...reminder]
+  newReminder.splice(index,1)
+  setReminder(newReminder)
 }
 
 const handleEdit=(index)=>{
-  setName(students[index].desc)
+  setDesc(reminder[index].desc)
   setEditIndex(index)
 
 }
@@ -49,7 +49,7 @@ const handleEdit=(index)=>{
           <Form.Label >Ingrese fecha</Form.Label>
           <input type='date' class="form-control"></input>
           <Form.Label >Descripción</Form.Label>
-          <Form.Control  placeholder="Ingrese Descripción" value={desc} onChange={(e)=>setName(e.target.value)} />
+          <Form.Control  placeholder="Ingrese Descripción" value={desc} onChange={(e)=>setReminder(e.target.value)} />
         </Form.Group>
         
         <div class="form-check form-switch">
@@ -68,13 +68,13 @@ const handleEdit=(index)=>{
 
       <Row>
         {
-          students.map((student,index)=>(
+          reminder.map((reminder,index)=>(
            <Col>
            <Card style={{ width: '18rem' }}>
               
             <Card.Body>
               <Card.Title>Datos Estudiante</Card.Title>
-               <Card.Text>Nombre:{student.desc} </Card.Text>
+               <Card.Text>Nombre:{reminder.desc} </Card.Text>
               <Button variant="danger" onClick={()=>handleDelete(index)}>Eliminar</Button>
               <Button variant="warning" onClick={()=>handleEdit(index)}>Modificar</Button>
             </Card.Body>
