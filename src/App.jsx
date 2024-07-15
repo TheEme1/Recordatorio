@@ -7,6 +7,7 @@ import {Container,Row,Col,Card} from 'react-bootstrap'
 
 function App() {
   const [reminder,setReminder]=useState([])
+  const [date,setDate]=useState('')
   const [desc,setDesc]=useState('')
   const [editIndex,setEditIndex]=useState(null)
   
@@ -14,12 +15,13 @@ const handleSubmit=(event)=>{
 event.preventDefault()
 if(editIndex!==null){
   const newReminder=[...reminder]
-  newReminder[editIndex]={desc}
+  newReminder[editIndex]={date,desc}
   setReminder(newReminder)
   setEditIndex(null)
 }else{
-  setReminder([...reminder,{desc}])
+  setReminder([...reminder,{date,desc}])
 }
+  setDate('')
   setDesc('')
 }
 const handleDelete=(index)=>{
@@ -29,6 +31,7 @@ const handleDelete=(index)=>{
 }
 
 const handleEdit=(index)=>{
+  setDate(reminder[index].date)
   setDesc(reminder[index].desc)
   setEditIndex(index)
 
@@ -47,15 +50,17 @@ const handleEdit=(index)=>{
      
         <Form.Group className="mb-3">
           <Form.Label >Ingrese fecha</Form.Label>
-          <input type='date' class="form-control"></input>
-          <Form.Label >Descripción</Form.Label>
-          <Form.Control  placeholder="Ingrese Descripción" value={desc} onChange={(e)=>setReminder(e.target.value)} />
+          <Form.Control type='date' class="form-control" value={date} onChange={(e)=>setDate(e.target.value)}></Form.Control>
         </Form.Group>
-        
-        <div class="form-check form-switch">
-          <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"></input>
-          <label class="form-check-label" for="flexSwitchCheckDefault">Importante</label>
-        </div>
+
+        <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+        <Form.Label>Descripción</Form.Label>
+        <Form.Control as="textarea" rows={3} placeholder='Ingrese Descripción' value={desc} onChange={(e)=>setDesc(e.target.value)} />
+        </Form.Group>
+
+        <Form.Group>
+        <Form.Check type="switch" id="custom-switch" label="Importante"/>
+        </Form.Group>
 
         <Button type="submit">
           {
@@ -74,6 +79,7 @@ const handleEdit=(index)=>{
               
             <Card.Body>
               <Card.Title>Datos Recordatorio</Card.Title>
+               <Card.Text>Fecha:{reminder.date} </Card.Text>
                <Card.Text>Descripción:{reminder.desc} </Card.Text>
               <Button variant="danger" onClick={()=>handleDelete(index)}>Eliminar</Button>
               <Button variant="warning" onClick={()=>handleEdit(index)}>Modificar</Button>
